@@ -1,6 +1,6 @@
 # **Digital-electronics-1**
 ## Nadpis
-### List
+### ***List***
 1. Thing 1
   * Something
 2. Thing 2 
