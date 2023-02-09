@@ -4,4 +4,4 @@
 1. Thing 1
 - Something
 3. Thing 2 
-..2. thing 2.1
++ 2. thing 2.1
