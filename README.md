@@ -1,7 +1,7 @@
 # **Digital-electronics-1**
 ## Nadpis
 
-#List
+List
 #1.
 #2.
 #..* 3.
