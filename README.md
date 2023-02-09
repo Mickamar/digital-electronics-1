@@ -1,7 +1,7 @@
 # **Digital-electronics-1**
-## Hello
+## Nadpis
 
 #List
-1.
-2.
-..* 3.
+#1.
+#2.
+#..* 3.
