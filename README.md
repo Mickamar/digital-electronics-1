@@ -2,6 +2,6 @@
 ## Nadpis
 ### List
 1. Thing 1
-- Something
+* Something
 2. Thing 2 
-+ 2. thing 2.1
+* 2. thing 2.1
