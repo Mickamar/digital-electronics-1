@@ -23,26 +23,47 @@
    Last two digits of my student ID: **6 - 0110, 2 - 0010**
 
 ```vhdl
-    p_stimulus : process
+     p_stimulus : process
     begin
         -- Report a note at the beginning of stimulus process
         report "Stimulus process started";
 
-        -- First test case
-        s_b <= "BCD_OF_YOUR_SECOND_LAST_ID_DIGIT"; -- Such as "0101" if ID = xxxx56
-        s_a <= "BCD_OF_YOUR_LAST_ID_DIGIT";        -- Such as "0110" if ID = xxxx56
-        wait for 100 ns;
-        -- Expected output
-        assert ((s_B_greater_A = 'WRITE_CORRECT_VALUE_HERE') and
-                (s_B_equals_A  = 'WRITE_CORRECT_VALUE_HERE') and
-                (s_B_less_A    = 'WRITE_CORRECT_VALUE_HERE'))
-        -- If false, then report an error
-        report "Input combination COMPLETE_THIS_TEXT FAILED" severity error;
+        -- First test case ...
+        s_b <= "0110"; s_a <= "0010"; wait for 100 ns;
+        -- ... and its expected outputs
+        assert (( s_B_greater_A = '1') and
+                ( s_B_equals_A  = '0') and
+                (s_B_less_A    = '0'))
+        -- If true, then do not report anything
+        -- If false, then report the following error
+        report "Input combination b=0110, a=0010 FAILED" severity error;
+        
+        -- Second test case ...
+        s_b <= "0010"; s_a <= "0010"; wait for 100 ns;
+        -- ... and its expected outputs
+        assert (( s_B_greater_A = '0') and
+                ( s_B_equals_A  = '0') and
+                (s_B_less_A    = '0'))
+        -- If true, then do not report anything
+        -- If false, then report the following error
+        report "Input combination b=0010, a=0010 FAILED" severity error;
+        -- Intentional mistake
+                
+        -- Third test case ...
+        s_b <= "0000"; s_a <= "0000"; wait for 100 ns;
+        -- ... and its expected outputs
+        assert (( s_B_greater_A = '0') and
+                ( s_B_equals_A  = '1') and
+                (s_B_less_A    = '0'))
+        -- If true, then do not report anything
+        -- If false, then report the following error
+        report "Input combination b=0000, a=0000 FAILED" severity error;
 
         -- Report a note at the end of stimulus process
         report "Stimulus process finished";
-        wait;
+        wait; -- Data generation process is suspended forever
     end process p_stimulus;
+
 ```
 
 2. Link to your public EDA Playground example:
