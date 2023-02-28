@@ -5,12 +5,16 @@
 1. Listing of VHDL architecture from source file `mux_3bit_4to1.vhd`. Always use syntax highlighting, meaningful comments, and follow VHDL guidelines:
 
 ```vhdl
-architecture Behavioral of mux_3bit_4to1 is
+architecture behavioral of mux_3bit_4to1 is
+
 begin
+with sel_i select
+    f_o <= a_i when "00",
+           b_i when "01",
+           c_i when "10",
+           d_i when "11";
 
-    -- WRITE YOUR CODE HERE
-
-end architecture Behavioral;
+end architecture behavioral;
 ```
 
 2. Screenshot with simulated time waveforms. Always display all inputs and outputs (display the inputs at the top of the image, the outputs below them) at the appropriate time scale!
