@@ -61,9 +61,9 @@ begin
       elsif (en = '1') then         -- Test if counter is enabled
 
          if (cnt_up = '1') then 
-           sig_cnt <= sig_cnt - 1;
-         else
            sig_cnt <= sig_cnt + 1;
+         else
+           sig_cnt <= sig_cnt - 1;
          end if;
       end if;
     end if;
