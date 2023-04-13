@@ -27,8 +27,8 @@ entity stopwatch_seconds is
         -- Seconds
         seconds_l_o    : out std_logic_vector(4 - 1 downto 0);
         -- Tenths of seconds
-        minutes_l_o : out std_logic_vector(4 - 1 downto 0)
-     
+        minutes_l_o : out std_logic_vector(4 - 1 downto 0);
+        secstart : out std_logic_vector(3 downto 0)
     );
 end entity stopwatch_seconds;
 
@@ -74,33 +74,41 @@ begin
     p_stopwatch_cnt : process(clk)
     begin
         if rising_edge(clk) then
-
-            if (rst = '1') then           -- Synchronous reset
-                                            -- Clear all bits
-                s_cnt2 <= (others => '0');
+            if rst = '1' then  --! Synchronous reset
+                s_cnt2 <= "1001";
                 s_cnt1 <= (others => '0');
                 s_cnt0 <= (others => '0');
-                s_start <= '0';             -- Clear start button flag
+                s_start <= '0';
+            elsif  (s_cnt1 = 0 ) and (s_cnt0 = 0 ) and (s_cnt2 = 0) then
+                s_start <= '0';
+                
+            else
+                --! When pause is pressed, set s_start to '0' to stop counting.
+                if pause_i = '1' then
+                    s_start <= '0';
+                end if;
 
-            -- Use flag to remember if start button was pressed
-            elsif (start_i = '1') then
-                s_start <= '1';             -- Set start button flag
-
+                if start_i = '1' then
+                    s_start <= '1';
+                end if;
+                
+                
+                if s_start <= '1' then
             -- Counting only if start was pressed and pause is inactive
-            elsif (s_en = '1' and s_start = '1' and pause_i = '0') then
-                s_cnt0 <= s_cnt0 + 1;       -- Increment every 10 ms
+                s_cnt0 <= s_cnt0 - 1;       -- Increment every 10 ms
+                end if;
                
                 -- Test if sec
                 --- WRITE YOUR CODE HERE
-                if (s_cnt0 = 9 ) then
-                 s_cnt1 <= s_cnt1 + 1;  
-                 s_cnt0 <= (others => '0');
+                if (s_cnt0 = 0 ) then
+                 s_cnt1 <= s_cnt1 - 1;  
+                 s_cnt0 <= "1001";
                 end if ;
                     -- Test tenths of seconds
                     --- WRITE YOUR CODE HERE
-                if (s_cnt1 = 6 ) then
-                 s_cnt2 <= s_cnt2 + 1;  
-                 s_cnt1 <= (others => '0');
+                if (s_cnt1 = 0 ) and (s_cnt0 = 0 ) then
+                 s_cnt2 <= s_cnt2 - 1;  
+                 s_cnt1 <= "101";
                 end if ;
                         -- Test seconds
                         --- WRITE YOUR CODE HERE
@@ -108,6 +116,7 @@ begin
                             -- Test tens of seconds
                             --- WRITE YOUR CODE HERE
             end if;
+            
         end if;
     end process p_stopwatch_cnt;
 
