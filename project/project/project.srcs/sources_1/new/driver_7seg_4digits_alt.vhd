@@ -44,26 +44,26 @@ library ieee;
 --
 ----------------------------------------------------------
 
-entity driver_7seg_4digits is
+entity driver_7seg_4digits_alt is
   port (
     clk     : in    std_logic;
     rst     : in    std_logic;
-    data0   : out    std_logic_vector(4-1 downto 0);
-    data1   : out   std_logic_vector(3-1 downto 0);
-    data2   : out    std_logic_vector(4-1 downto 0);
+    data0   : in    std_logic_vector(3 downto 0);
+    data1   : in    std_logic_vector(3-1 downto 0);
+    data2   : in    std_logic_vector(3 downto 0);
     dp_vect : in    std_logic_vector(3 downto 0);
+    
     dp      : out   std_logic;
     seg     : out   std_logic_vector(6 downto 0);
-    dig     : out   std_logic_vector(3 downto 0);
-    --BTNU    : out   std_logic
+    dig     : out   std_logic_vector(3 downto 0)
   );
-end entity driver_7seg_4digits;
+end entity driver_7seg_4digits_alt;
 
 ----------------------------------------------------------
 -- Architecture declaration for display driver
 ----------------------------------------------------------
 
-architecture behavioral of driver_7seg_4digits is
+architecture behavioral of driver_7seg_4digits_alt is
 
   -- Internal clock enable
   signal sig_en_4ms : std_logic;
@@ -76,36 +76,7 @@ architecture behavioral of driver_7seg_4digits is
 
 begin
 
-  --------------------------------------------------------
-  -- Instance (copy) of clock_enable entity generates
-  -- an enable pulse every 4 ms
-  --------------------------------------------------------
-  
 
-  --------------------------------------------------------
-  -- Instance (copy) of cnt_up_down entity performs
-  -- a 2-bit down counter
-  --------------------------------------------------------
-  stopwatch_seconds : entity work.stopwatch_seconds
-    
-    port map (
-        clk  => clk,
-        rst  => rst,
-        start_i  => BTNU,
-        pause_i => BTNU,
-        -- Tens of seconds
-        seconds_h_o  => data0,
-        -- Seconds
-        seconds_l_o  => data1,
-        -- Tenths of seconds
-        minutes_l_o => data2
-       -- secstart : out std_logic_vector(3 downto 0)
-    );
-
-  --------------------------------------------------------
-  -- Instance (copy) of hex_7seg entity performs
-  -- a 7-segment display decoder
-  --------------------------------------------------------
   hex2seg : entity work.hex_7seg
     port map (
       blank => rst,
@@ -131,10 +102,10 @@ begin
 
         case sig_cnt_2bit is
 
-          when "11" =>
-            sig_hex <= data3;
-            dp      <= dp_vect(3);
-            dig     <= "0111";
+          --when "11" =>
+            --sig_hex <= data3;
+            --dp      <= dp_vect(3);
+            --dig     <= "0111";
 
           when "10" =>
             sig_hex <= data2;
